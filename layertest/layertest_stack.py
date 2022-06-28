@@ -22,7 +22,6 @@ class LayertestStack(Stack):
             "PermissionsBoundaryPolicyArn"
         )
         if permissions_boundary_policy_arn:
-            print(f"boundary policy is {permissions_boundary_policy_arn}")
             policy = (
                 iam.ManagedPolicy.from_managed_policy_arn(  #   from_managed_policy_name
                     self, "PermissionsBoundary", permissions_boundary_policy_arn
@@ -42,11 +41,6 @@ class LayertestStack(Stack):
                         host_path=os.path.join(os.getcwd(), layer_dir),
                     )
                 ],
-                # command=[
-                #     "/bin/sh",
-                #     "-c",
-                #     f"pip install -r {container_dir}/requirements.txt -t /asset-output/python",
-                # ],
                 command=f"pip install -r {container_dir}/requirements.txt -t /asset-output/python".split(),
             ),
         )
@@ -63,12 +57,13 @@ class LayertestStack(Stack):
             """
 import json
 import skyfield
-from skyfield.api import load
+from skyfield.api import Loader
 
 def lambda_handler(event, context):
 
     print(skyfield.VERSION)
 
+    load = Loader('/tmp')
     planets = load('de421.bsp')
     earth, mars = planets['earth'], planets['mars']
     
@@ -80,6 +75,8 @@ def lambda_handler(event, context):
     print(ra)
     print(dec)
     print(distance)
+
+    return { 'response' : skyfield.VERSION }
 
 """
         )
