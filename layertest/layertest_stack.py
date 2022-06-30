@@ -29,12 +29,14 @@ class LayertestStack(Stack):
             )
             iam.PermissionsBoundary.of(self).apply(policy)
 
+        python_runtime = _lambda.Runtime.PYTHON_3_7
+
         layer_dir = "layers/skyfield"
         container_dir = "/install"
         layer_code = _lambda.Code.from_asset(
             layer_dir,
             bundling=BundlingOptions(
-                image=DockerImage("public.ecr.aws/sam/build-python3.7:1"),
+                image=python_runtime.bundling_image,    #DockerImage("public.ecr.aws/sam/build-python3.7:1"),
                 volumes=[
                     DockerVolume(
                         container_path=container_dir,
@@ -45,7 +47,6 @@ class LayertestStack(Stack):
             ),
         )
 
-        python_runtime = _lambda.Runtime.PYTHON_3_7
         skyfield_layer = _lambda.LayerVersion(
             self,
             "skyfield",
