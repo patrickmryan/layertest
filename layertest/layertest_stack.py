@@ -29,7 +29,7 @@ class LayertestStack(Stack):
             )
             iam.PermissionsBoundary.of(self).apply(policy)
 
-        python_runtime = _lambda.Runtime.PYTHON_3_7
+        python_runtime = _lambda.Runtime.PYTHON_3_9 #7
 
         layer_dir = "layers/skyfield"
         container_dir = "/install"
