@@ -29,21 +29,24 @@ class LayertestStack(Stack):
             )
             iam.PermissionsBoundary.of(self).apply(policy)
 
-        python_runtime = _lambda.Runtime.PYTHON_3_9 #7
+        python_runtime = _lambda.Runtime.PYTHON_3_9  # 7
 
         layer_dir = "layers/skyfield"
         container_dir = "/install"
+        opts = "--only-binary :all: --disable-pip-version-check --no-cache-dir"
+
         layer_code = _lambda.Code.from_asset(
             layer_dir,
             bundling=BundlingOptions(
-                image=python_runtime.bundling_image,    #DockerImage("public.ecr.aws/sam/build-python3.7:1"),
+                image=python_runtime.bundling_image,  # DockerImage("public.ecr.aws/sam/build-python3.7:1"),
                 volumes=[
                     DockerVolume(
                         container_path=container_dir,
                         host_path=os.path.join(os.getcwd(), layer_dir),
                     )
                 ],
-                command=f"pip install -r {container_dir}/requirements.txt -t /asset-output/python".split(),
+                command=f"pip install {opts} -r {container_dir}/requirements.txt -t /asset-output/python".split(),
+                network="host",
             ),
         )
 
