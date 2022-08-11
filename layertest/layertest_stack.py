@@ -9,6 +9,7 @@ from aws_cdk import (
     Stack,
     aws_lambda as _lambda,
     aws_iam as iam,
+    aws_logs as logs,
     # aws_sqs as sqs,
 )
 from constructs import Construct
@@ -92,5 +93,6 @@ def lambda_handler(event, context):
             runtime=python_runtime,
             handler="index.lambda_handler",
             timeout=Duration.minutes(1),
+            log_retention=logs.RetentionDays.ONE_WEEK,
             layers=[skyfield_layer],
         )
