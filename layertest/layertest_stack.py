@@ -34,7 +34,6 @@ class LayertestStack(Stack):
                     resource="policy",
                     resource_name=permissions_boundary_policy_name,
                 )
-                print(permissions_boundary_policy_arn)
 
         if permissions_boundary_policy_arn:
             policy = iam.ManagedPolicy.from_managed_policy_arn(
@@ -47,11 +46,14 @@ class LayertestStack(Stack):
         layer_dir = "layers/skyfield"
         container_dir = "/install"
         opts = "--only-binary :all: --disable-pip-version-check --no-cache-dir"
+        # build_image=python_runtime.bundling_image
+        # build_image=DockerImage("public.ecr.aws/sam/build-python3.7:1")
+        build_image = DockerImage("python:3.9-slim")
 
         layer_code = _lambda.Code.from_asset(
             layer_dir,
             bundling=BundlingOptions(
-                image=python_runtime.bundling_image,  # DockerImage("public.ecr.aws/sam/build-python3.7:1"),
+                image=build_image,
                 volumes=[
                     DockerVolume(
                         container_path=container_dir,
