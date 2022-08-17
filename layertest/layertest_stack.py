@@ -45,7 +45,10 @@ class LayertestStack(Stack):
 
         layer_dir = "layers/skyfield"
         container_dir = "/install"
-        opts = "--only-binary :all: --disable-pip-version-check --no-cache-dir"
+
+        opts = "--disable-pip-version-check --no-cache-dir"
+        # opts = "--only-binary :all: --disable-pip-version-check --no-cache-dir"
+
         # build_image=python_runtime.bundling_image
         # build_image=DockerImage("public.ecr.aws/sam/build-python3.7:1")
         build_image = DockerImage("python:3.9-slim")
