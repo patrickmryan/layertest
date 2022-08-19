@@ -7,10 +7,10 @@ Welcome to LayerTest's documentation!
 =====================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
 
+   stacks
 
+CDK stack info is at :doc:`stacks`.
 
 Indices and tables
 ==================

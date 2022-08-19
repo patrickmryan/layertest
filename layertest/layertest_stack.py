@@ -1,3 +1,7 @@
+"""
+Here is some super important documentation.
+"""
+
 import os
 import os.path
 
@@ -10,12 +14,22 @@ from aws_cdk import (
     aws_lambda as _lambda,
     aws_iam as iam,
     aws_logs as logs,
-    # aws_sqs as sqs,
 )
 from constructs import Construct
 
 
 class LayertestStack(Stack):
+    """
+    Creates a stack with a lambda function and a layer.
+
+    :param kind: Optional "kind" of ingredients.
+    :type kind: list[str] or None
+    :raise lumache.InvalidKindError: If the kind is invalid.
+    :return: The ingredients list.
+    :rtype: list[str]
+
+    """
+
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
